@@ -1,0 +1,193 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}	% Para caracteres en español
+\usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+\usepackage{multirow,booktabs}
+\usepackage[table]{xcolor}
+\usepackage{fullpage}
+\usepackage{lastpage}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{mathrsfs}
+\usepackage{wrapfig}
+\usepackage{setspace}
+\usepackage{calc}
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage[retainorgcmds]{IEEEtrantools}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\newlength{\tabcont}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.05in}
+\usepackage{empheq}
+\usepackage{framed}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\colorlet{shadecolor}{orange!15}
+\parindent 0in
+\parskip 12pt
+\geometry{margin=1in, headsep=0.25in}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{reg}{Rule}
+\newtheorem{exer}{Exercise}
+\newtheorem{note}{Note}
+\newcommand{\pd}[2]{\frac{\partial {#1}}{\partial {#2}}}
+\newcommand{\mytilde}{\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}
+
+\begin{document}
+
+\thispagestyle{empty}
+
+\begin{center}
+{\LARGE \bf Glacial Cycle Models}\\
+{\large GT EAS 4803/8803}\\
+\end{center}
+\section{Observations}
+What is it about paleo-proxy observations of glacial cycles that we are trying to reproduce?
+
+\begin{enumerate}
+\item Recent glacial cycles with 100 kyr period (over the last 800 kyr at least). The difficulty here is that Milankovitch cycles (i.e. insolation forcing of the Northern Hemisphere) have little power at 100 kyr.
+\item The mid-Pleistocene transition (at around 800 kyr before present) from 40 kyr cycles (before) to 100 kyr cycles (after) without a change in Milankovitch cycle periodicity
+\item Sawtooth-like asymmetry of glaciation and deglaciation (i.e. deglaciation in <10 kyr, glaciation over many 10's of kyr)
+\item Phasing with Milankovitch forcing (i.e. deglaciation always occurs during max NH insolation, though variations in insolation are small)
+\end{enumerate}
+
+Models of glacial cycles typically take two approaches:
+\begin{enumerate}
+\item \textbf{Ad-hoc models}: prescribed to have a certain behavior which matches (some aspects of observations)
+\begin{enumerate}
+\item Pros: Can easily fit observations
+\item Cons: Doesn't explain the physical mechanism of glacial cycle, parameter values are not constrained directly from glacier observations, just tuned to match paleo observations
+\end{enumerate}
+\item \textbf{Physical models}: include some physical processes thought to be important to producing glacial-interglacial cycles
+\begin{enumerate}
+\item Pros: help to explain physical mechanisms of glacial cycles
+\item Cons: harder to fit observations, can be complicated with many parameters
+\end{enumerate}
+\end{enumerate}
+
+\section{Ad-hoc models}
+
+\subsection{Calder (1974)}
+\begin{shaded}
+In this model, ice sheet volume ($V$) grows and decays directly in proportion to insolation ($i$)
+\begin{equation}
+\frac{dV}{dt} = -k (i-i_0)
+\end{equation}
+where 
+\begin{align*}
+k = \begin{cases} k_m & \hbox{if $i>i_0$} \\ k_A & \hbox{else} \end{cases}
+\end{align*}
+\end{shaded}
+This and other early models of glacial cycles (Adhemar, Croll, Milankovitch) explain the phasing (\text{obs 4}) and nothing else. Among their problems, these models have way too much power at precessional and obliquity periods, and they need lots of fine tuning even to just get phasing right.
+
+\subsection{Imbrie and Imbrie (1980)}
+This very influential model (by a father and son team) has ice volume which are always relaxing towards the forcing at a rate ($\tau$) that depends on whether ice sheets are growing or decaying (producing asymmetry in glaciation and deglaciation).
+\begin{shaded}
+\begin{equation}
+\frac{dV}{dt} = \frac{i-V}{\tau}
+\end{equation}
+where 
+\begin{align*}
+\tau = \begin{cases} \tau_m & \hbox{if $V>i$} \\ \tau_A & \hbox{else} \end{cases}
+\end{align*}
+\end{shaded}
+The difference of this model with Calder (1974) is that the ice sheet volume has its down dynamics in addition to the dependence on insolation. This model then has an improved fit to observations, with phasing set by insolation and some asymmetry in glaciation and deglaciation. However, some problems remain including no strong 100 kyr glacial cycles and too much power at very low frequencies (e.g. 400 kyr from insolation).
+
+\subsection{Paillard (2001)}
+This model is the natural progression of Imbrie$^2$, which adds multiple ``steady-states'' to the model, as compared to Imbrie$^2$ where the steady-state is always set by the insolation.
+\begin{shaded}
+\begin{equation}
+\frac{dV}{dt} = \frac{V-V_R}{\tau_R} - \frac{i}{\tau_F}
+\end{equation}
+where 
+\begin{align*}
+V_R = \begin{cases} 1 & \hbox{if $i<i_0$} \\ 1 & \hbox{if $V>V_{max}$} \\ 0 & \hbox{if $i>i_1$} \end{cases}
+\end{align*}
+and
+\begin{align*}
+\tau_R = \begin{cases} 50 \text{ kyr} & \hbox{if $i<i_0$} \\ 50 \text{ kyr} & \hbox{if $V>V_{max}$} \\  10 \text{ kyr} & \hbox{if $i>i_1$} \end{cases}
+\end{align*}
+The first case represents ``mild glaciation'', the second ``full glaciation'', and the third ``interglacial'' conditions. The cases are only allowed to proceed from mild to full to interglacial.
+\end{shaded}
+In this model, the phasing is right due to the influence of insolation, there is an asymmetry in glaciation and deglaciation (due to the change in $\tau_R$), and the 100 kyr glacial cycle is reproduced due to the addition of the $V_{max}$ threshold, which ensures that a fully glaciated state must be reached before deglaciation is allowed to occur. This ``threshold'' trigger to deglaciation is a common feature of many model of rapid climate change (of which deglaciation is just one example) and is indicative of a change in the sensitivity of ice sheet dynamics when ice sheets are large.
+
+Still, this model does not reproduce the mid-Pleistocene transition, and requires many ad-hoc parameters to fit these other features of glacial cycles observations. The larger problem presented by this model is that we have an intermediate explanation for observations (the existence of multiple ice sheet steady-states abd the change in ice sheet sensitivity), but still no physical explanation about why ice sheets exhibit these behaviors. Explaining these is still an active area of research in the glaciology and paleoclimate community.
+
+\section{Physical Models}
+
+\subsection{Ghil (1994) model A}
+In this model, the dynamics of ice sheet growth and decay are mediated completely by precipitation ($P$), atmospheric temperature ($T$) and albedo ($A$) of the ice sheet. The albedo is a measure of how much incoming solar insolation is reflected by the surface due to its color, where white surfaces (i.e. fresh snow or ice) have high albedo and dark surfaces (i.e. ocean or land surface) have low albedo.
+
+In this model:
+\begin{equation}
+\frac{dV}{dt} \propto P \propto T
+\end{equation}
+The second part of the equation above is a consequence of the Clausius-Clapeyron relationship which captures the fact that a warmer atmosphere holds more moisture which leads to greater precipitation (even in snowfall if the base temperature if sufficiently below freezing, see SMB lecture). The second relationship is
+\begin{equation}
+\frac{dT}{dt} \propto -A \propto -V
+\end{equation}
+which recognizes that higher albedo leads to lower temperatures (since more insolation is reflected from the Earth's surface), and that larger ice sheet have higher albedo. Putting these two relationships together yields a closed model for ice volume:
+\begin{shaded}
+\begin{equation}
+\frac{d^2V}{dt^2} = -k V
+\end{equation}
+The solution to such a differential equation is an oscillation in ice volume over time.
+\end{shaded}
+The problem though is that the oscillatory solution has a 10 kyr period for realistic parameters, no phasing with Milankovitch cycles, and no asymmetries. Pretty much everything about this model is wrong (though it is elegant).
+
+\subsection{Ghil (1994) model B} 
+In this model, the dynamics of ice sheet growth and decay are mediated by the height-mass balance feedback and isostatic depression.
+
+The height-mass balance feedback (see SMB lectures) is a relationship between the net mass balance of the ice sheet surface and the ice sheet height ($h$). Thicker ice sheets reach to colder parts of the atmosphere where surface melting does not occur. Thinner ice sheets are closer to sea level where it is warmer and there is more surface melting. Thus
+\begin{equation}
+\frac{dV}{dt} \propto P \propto h
+\end{equation}
+
+Isostatic depression is the process through which the weight of ice sheets causes the Earth surface to sink into the mantle, cause the elevation of the ice sheet (within the atmosphere) to be lower. Thus
+\begin{equation}
+\frac{dh}{dt} \propto -V
+\end{equation}
+
+Again, putting these two relationships together yields a closed model for ice volume:
+\begin{shaded}
+\begin{equation}
+\frac{d^2V}{dt^2} = -k V
+\end{equation}
+The solution to such a differential equation is an oscillation in ice volume over time.
+\end{shaded}
+However, the oscillations are again too short (though this depends on the rate of isostatic depression which depends on poorly-known properties of the Earth's lithosphere) and do not phase with Milankovitch forcing or have asymmetries. However, the interplay of ice sheet dynamics with isostatic depression is a feature of many more complicated models of glacial cycles (see next section) and is likely to be important in determining many aspects of glacial variability.
+
+\subsection{Oerlemans (1980) and Pollard (1982) and Birchfield et al. (1981)}
+These models are the most complicated of those we have considered here, and presage modern highly complex coupled climate-ice sheet modeling approaches (i.e. Abe-Ouchi 2013) which have been quite successful in reproducing the paleo-record of glacial-interglacial cycling.
+
+In these earlier models, the height-mass balance feedback, isostatic bed depression and potentially ice sheet dynamics (in a highly simplified form) are included. For example, in Pollard (1982)
+\begin{shaded}
+\begin{equation}
+\pd{h}{t} = \pd{}{x} \left[D \pd{}{x} \left(h+b \right) \right] + G
+\end{equation}
+which represents ice flow in one dimension as a diffusion equation (which can actually be derived from the fundamental equations of ice flows with some simplifications, see Ice Flow lecture). Here $G$ is the surface mass balance of the ice sheet (see below).
+
+Isostatic adjustment can be represented by
+\begin{equation}
+\pd{b}{t} = - \alpha (h+3b)
+\end{equation}
+where $b$ is the bed height and $\alpha$ is a response coefficient that reflects how stiff the lithosphere is. The 3 in this equation is due to the fact that rock tends to be about 3x denser/heavier than ice.
+
+To represent the height-mass balance feedback, the surface mass balance is given as
+\begin{equation}
+G = a(h+b-E) + [b(h+b-E)^2] + C(x)
+\end{equation}
+where $E$ is the equilibrium line altitude (see SMB lecture) which might change with insolation. The first term in this equation the positive height-mass balance feedback, the second term adds (potentially) the elevation-desert effect, which causes SMB to decrease towards zero at very high elevations where there is little moisture, and the last term adds potential latitudinal dependence.
+\end{shaded}
+Slow ice flow, with height-mass balance feedback, isostatic adjustment and insolation forcing on the equilibrium line altitude ($E$) gives the correct phasing of deglaciation, asymmetries in glacial cycles, but do not reproduce the 100 kyr cycles.
+
+If rapid ice melt at very southerly latitudes is added (i.e. through iceberg calving)
+\begin{equation}
+C(x>x_s) = -20 \text{m/yr}
+\end{equation}
+then 100 kyr cycles become much more prominent. This acts like the volume threshold ($V_{max}$) in Paillard to ensure that ice sheets only deglaciate when they are sufficiently large.
+
+
+\end{document}

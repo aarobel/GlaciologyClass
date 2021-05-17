@@ -1,0 +1,118 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}	% Para caracteres en español
+\usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+\usepackage{multirow,booktabs}
+\usepackage[table]{xcolor}
+\usepackage{fullpage}
+\usepackage{lastpage}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{mathrsfs}
+\usepackage{wrapfig}
+\usepackage{setspace}
+\usepackage{calc}
+\usepackage{natbib}
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage[retainorgcmds]{IEEEtrantools}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\newlength{\tabcont}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.05in}
+\usepackage{empheq}
+\usepackage{framed}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{wrapfig,graphicx}
+\colorlet{shadecolor}{orange!15}
+\parindent 0in
+\parskip 12pt
+\geometry{margin=1in, headsep=0.25in}
+\theoremstyle{definition}
+\newcommand{\pd}[2]{\frac{\partial {#1}}{\partial {#2}}}
+\newcommand{\mytilde}{\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}
+\newtheorem{defn}{Definition}
+\newtheorem{reg}{Rule}
+\newtheorem{exer}{Exercise}
+\newtheorem{note}{Note}
+\begin{document}
+
+\thispagestyle{empty}
+
+\begin{center}
+{\LARGE \bf Fracture Mechanics}\\
+{\large GT EAS 4803/8803}\\
+\end{center}
+
+\textbf{The central idea behind linear elastic fracture mechanics (LEFM) is that materials have small microscopic flaws throughout their volume. These flaws may grow through crack opening only if local stress at the crack tip is larger than the material strength. The material strength is a fundamental property of the material that can be measured in the laboratory or (with difficulty) in the field.}
+
+\begin{figure}[h]
+  \begin{center}
+\includegraphics[width=0.7\textwidth]{LEFMmag.pdf}
+  \end{center}
+\end{figure}
+
+\begin{wrapfigure}{r}{0.3\textwidth}
+  \begin{center}
+\includegraphics[width=0.3\textwidth]{Mode1Frac.png}
+  \end{center}
+  \vspace{-20pt}
+\end{wrapfigure}
+The ``linear elastic'' in LEFM comes from the essential assumption that we can ignore non-elastic (i.e. viscous or brittle) nonlinear deformation mechanisms. In glaciers, the ``initial'' flaws which grow into large cracks are typically surface or basal crevasses. For the most part, the cracks of interest in glacial LEFM are ``Mode I'' cracks which grow only in the vertical due to tensile (pulling apart) stresses (see figure to right).
+
+\textbf{The key concept in LEFM is the stress intensity factor (SIF) which gives the relationship between the stress concentrated right at the crack tip (i.e. very small scale) and the far-field stresses and system geometry (which are more easy to measure or simulate in a coarse numerical model).}
+
+For example, for the geometry in the figure above (an infinitely deep material with a crack opening under tensile stress at the surface), the stress intensity factor is
+\begin{equation}
+K_I = \beta \sigma_{xx} \sqrt{\pi d}
+\end{equation}
+where $\beta$ is a constant that depends on geometry, $\sigma_{xx}$ is the large scale tensile stress, and $d$ is the crack depth. It may be immediately apparent that while such SIFs are derived from first principles, the fact that constants within these formulae are determined by the problem geometry (i.e. surface or basal, thickness of material relative to crack depth, etc.) means that a single SIF cannot be applied in all circumstances. However, it may be that a particular SIF works well for a wide range of fractures that we might be interested in (i.e. shallow surface crevasses under tension for the above SIF).
+
+If $K_I>K_{Ic}$ where $K_{Ic}$ is the critical fracture toughness, then the fracture will grow. For pure glacial ice, laboratory measurements indicate that $K_{Ic} \mytilde 10^5$ Pa m$^{1/2}$. For snow/firn, laboratory and field measurements indicate that $K_{Ic} \mytilde 10^2-10^3$ Pa m$^{1/2}$. At the surface of glaciers, initial flaws typically occur in firn, which has a very low strength, which can then propagate into solid ice below if the tensile stress is sufficiently high.
+
+\textbf{The linear assumption in LEFM allows us to add the SIFS due to different processes (as long as their assumptions are not conflicting) to determine the total stress at a crack tip}. For example, for a shallow crevasse at the surface of a glacier, we can follow the lead of Nye and consider the crack opening due to tensile stress, and the crack closing due to glaciostatic pressure increasing with depth. As argued above, the crack opening for a shallow crevasse (i.e. where $d<<H$) is
+\begin{equation}
+K_I^{(1)} = \beta \sigma_{xx} \sqrt{\pi d}
+\end{equation}
+(where the $^{1}$ notation indicates the first SIF). The SIF associated with compressive stress closure is
+\begin{equation}
+K_I^{(2)} = \frac{2 \rho g}{\sqrt{\pi d}} \int_0^d \rho (z)  G (z/H) dz
+\end{equation}
+where the negative sign indicates a tendency to close the crack, and $G$ is a geometric factor.
+
+The equilibrium crack depth (i.e. the depth to which the crack will and stop growing) occurs where
+\begin{equation}
+K_I^{(1)} + K_I^{(2)} = K_{Ic}
+\end{equation}
+\begin{figure}[h]
+  \begin{center}
+\includegraphics[width=1.0\textwidth]{ShallowCrevPlot.pdf}
+  \end{center}
+\end{figure}
+The plot above shows the above equation plotted in terms of the depth ($d$) that solves the above equality for two different tensile stresses ($\sigma_{zz}$). We can see that for certain low tensile stresses, initial cracks must be larger than a few meters to grow to any larger size (because the stress concentration at the crack tip is to small to overcome the glaciostatic pressure even at very shallow depths (assuming pure ice throughout). Alternatively, for larger tensile stresses, arbitrarily small fractures will grow to large sizes. We can see how this would lead to very different predictions from the Nye zero stress theory which predicts that there will be crevasses with finite depth for any non-zero applied tensile stress. In reality, crevasses don't exist everywhere where there is tensile stress on the ice, indicating that LEFM is more accurate than Nye zero stress in predicting the existence of crevasses. A recent study \cite[]{lai2020} uses an exhaustive catalogue of crevasses in Antarctica (derived from neural networks trained on satellite images) to show that LEFM does a good job of predicting whether surface crevasses should and shouldn't exist.
+\begin{figure}[h]
+  \begin{center}
+\includegraphics[width=1.0\textwidth]{CloselySpacedSchematic.pdf}
+  \end{center}
+\end{figure}
+In the previous example, one of the underlying assumptions about the geometry of the crevasse is that there is a single crevasse which does not feel the effects of any other crevasses. In reality, glaciers (particularly near the terminus) have many crevasses that are likely to be closely spaced (as in the schematic above). The tension from a nearby opening crack can act to compress another crack through a process called crack ``blunting'' or ``shadowing''. 
+
+We can also consider the effect of water entering a crevasse by adding a third SIF added to the problem above
+\begin{equation}
+K_I^{(3)} = \frac{2 \rho_w g}{\sqrt{\pi d}} \int_0^d (z-h_w)  G (z/H) dz
+\end{equation}
+where $h_w$ is the water depth in the crevasse. The result of this water is hydrofracture (as in the Nye zero stress theory), but with the key difference that the crevasse needs to be some finite depth before water can act to propagate the crack (see figure below). However, it is still possible that hydrofracture may deepen the crevasse all the way to the bed, though it should be noted that the $K_I^{(1)}$ SIF is no longer valid in the limit that $d=H$. More appropriate SIFs are available for such a case, as explored in \cite{jimenez2018}
+
+\begin{figure}[h]
+  \begin{center}
+\includegraphics[width=0.5\textwidth]{LEFM_hydrofracture.pdf}
+  \end{center}
+\end{figure}
+
+
+\bibliography{/Users/robel/Dropbox/Docs/refs.bib}
+\bibliographystyle{apalike}
+
+\end{document}

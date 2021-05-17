@@ -1,0 +1,244 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}	% Para caracteres en español
+\usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+\usepackage{multirow,booktabs}
+\usepackage[table]{xcolor}
+\usepackage{fullpage}
+\usepackage{lastpage}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{mathrsfs}
+\usepackage{wrapfig}
+\usepackage{setspace}
+\usepackage{calc}
+\usepackage{natbib}
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage[retainorgcmds]{IEEEtrantools}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\newlength{\tabcont}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.05in}
+\usepackage{empheq}
+\usepackage{framed}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{wrapfig,graphicx}
+\colorlet{shadecolor}{orange!15}
+\parindent 0in
+\parskip 12pt
+\geometry{margin=1in, headsep=0.25in}
+\theoremstyle{definition}
+\newcommand{\pd}[2]{\frac{\partial {#1}}{\partial {#2}}}
+\newcommand{\mytilde}{\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}
+\newtheorem{defn}{Definition}
+\newtheorem{reg}{Rule}
+\newtheorem{exer}{Exercise}
+\newtheorem{note}{Note}
+\begin{document}
+
+\thispagestyle{empty}
+
+\begin{center}
+{\LARGE \bf Sliding}\\
+{\large GT EAS 4803/8803}\\
+\end{center}
+
+\begin{center}
+\color{red}{For a detailed mathematical review of the Weertman and Lliboutry debate, and subsequent revisions to sliding theory, see \cite{fowler2010:slidingreview}.}
+\end{center}
+
+\section{Weertman's theory of sliding}
+
+\begin{wrapfigure}{r}{0.3\textwidth}
+  \begin{center}
+\includegraphics[width=0.3\textwidth]{TombstoneFigure.pdf}
+  \end{center}
+  \vspace{-20pt}
+\end{wrapfigure}
+Let us consider two processes:
+\begin{enumerate}
+\item Regelation from pressure melting of ice and heat transfer
+\item ``Enhanced'' creep around obstacles due to added pressure of obstacles
+\end{enumerate}
+
+Also, let us consider a bed made up of cubical obstacles with edge length $a$, separated from one another by length $\lambda$ (see figure to right for example). The average shear stress at the bed is $\tau_b$, thus requiring each cube to support $\tau_b \lambda^2$ stress if the non-obstacles parts of the bed support none of the stress.
+
+\subsection{Regelation}
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+\vspace{-20pt}
+  \begin{center}
+\includegraphics[width=0.5\textwidth]{PressAnom.pdf}
+  \end{center}
+\end{wrapfigure}
+
+We assume that on average ice flows parallel to the bed, and will encounter these cubical obstacles (figure to right). Upstream of the obstacles (often referred to as the ``stoss'' side), the glaciostatic pressure (i.e. $\sigma_{xx}$) will be elevated due to the added stress of ice pressing on the obstacle: 
+\begin{equation}
+\rho g H + \frac{1}{2} \tau_b \frac{\lambda^2}{a^2} .
+\end{equation}
+Similarly, downstream of the obstacle (the ``lee'' side) pressure will be lowered from ice flowing away from the obstacle:
+\begin{equation}
+\rho g H - \frac{1}{2} \tau_b \frac{\lambda^2}{a^2}.
+\end{equation}
+The difference in stress between the ice upstream and downstream of the obstacles is $\tau_b \frac{\lambda^2}{a^2}$ and equals the total stress that must be taken up by the obstacle to maintain force balance.
+
+As the pressure on the ice increases, the melting point decreases (i.e. pressure melting begins to occur if temperature is held constant) across the obstacle by an amount:
+\begin{equation}
+\label{eq:delT}
+\Delta T_{mp} = \beta \tau = \beta \tau_b \frac{\lambda^2}{a^2}
+\end{equation}
+where $\beta$ is the change in melting temperature per change in pressure (i.e. the slope of the solidus in the ice-water phase diagram at relevant terrestrial pressures). Thus, pressure melting will occur upstream of the obstacles and pressure freezing will occur downstream of the obstacle.
+
+\textbf{Regelation is the ``effective'' velocity of ice due to melting upstream of the obstacles and re-freezing downstream of the obstacles.} Water is assumed to move freely in a film trapped between the ice and the obstacles from locations of melting to locations of freezing. The ``velocity'' of ice through regelation, $u_R$, is then determined by the rate at which pressure melting occurs on the upstream side of the obstacle. The corresponding volumetric rate of regelation is $u_R a^2$. \\
+
+When water refreezes due to the low pressure anomaly on the downstream side of the obstacle, latent heat is released. The amount of latent heat released is equal to
+\begin{equation}
+\color{red}{\rho L u_R a^2}
+\end{equation}
+\begin{wrapfigure}{r}{0.5\textwidth}
+  \begin{center}
+\includegraphics[width=0.5\textwidth]{HeatConductObstacle.pdf}
+  \end{center}
+  \vspace{-20pt}
+\end{wrapfigure}
+where $L$ is the specific latent heat of freezing for water. This excess heat will be conducted through the obstacles at a rate set by the temperature difference in the obstacle (see figure on right), 
+\begin{equation}
+\color{violet}{a k \Delta T}
+\end{equation} 
+where $k$ is the thermal conductivity of the obstacle material (rock or similar). 
+
+At a thermodynamic steady-state, the rate at which heat is conducted through the obstacle due to the temperature difference must balance the rate of latent heat release downstream:
+\begin{equation}
+\color{red}{\rho L u_R a^2} = \color{violet}{a k \Delta T}
+\end{equation}
+This heat exchange ensures that all heat being produced downstream by freezing is being consumed upstream by melting. (Though of course in reality there will be some inefficiency due to heat conduction into the ice and bed beneath the obstacle, though we ignore those details in this simple model.) If the bed is maintained at the melting point, we know how much the melting point should differ across the obstacle due to the pressure difference induced by ice flow (equation \ref{eq:delT}). Inserting this into the thermodynamic balance above, 
+\begin{equation}
+\rho L u_R a^2 = a k \beta \tau_b \frac{\lambda^2}{a^2}
+\end{equation}
+\begin{shaded}
+We have a balance which is solved for the regelation velocity all in terms of physical constants and the average shear stress at the bed, $\tau_b$,
+\begin{equation}
+u_R = \frac{k \beta \lambda^2 \tau_b}{\rho L a^3} .
+\end{equation}
+\end{shaded}
+
+\subsection{Enhanced Creep}
+\textbf{The added stress on the upstream side of the obstacle not only causes pressure melting (as explored above), but also leads to an anomalous strain rate, which corresponds to an additional ice creep velocity around the obstacle.} Using the Nye-Glen constitutive law for glacier ice, we can calculate this anomalous strain rate
+\begin{equation}
+\dot{\epsilon} = A \left(\frac{1}{2} \tau_b \frac{\lambda^2}{a^2} \right)^n
+\end{equation}
+Since the anomalous stress occurs over the obstacle of length $a$, we can estimate the anomalous ice velocity, $u_c$, caused by the presence of the obstacle
+\begin{equation}
+\dot{\epsilon} = \frac{du_c}{dx} \approx \frac{u_c}{a} = A \left(\frac{1}{2} \tau_b \frac{\lambda^2}{a^2} \right)^n
+\end{equation}
+\begin{shaded}
+Solving for the enhanced ice creep velocity gives
+\begin{equation}
+u_c = A a \left(\frac{\lambda^2}{2 a^2} \right)^n \tau_b^n
+\end{equation}
+\end{shaded}
+
+\subsection{Dominant sliding process}
+Let us assume that a range of obstacle sizes and spacing exist at the bed (which seems to be the case in observations). For a given average subglacial roughness (defined as $\lambda \tau_b / a$), regelation velocity is inversely proportional to obstacle size and creep velocity is proportional to obstacle size. Thus, at small obstacles, regelation velocity is high and creep velocity is low, and at a large obstacles regelation velocity is low and creep is high.  Ultimately, the average sliding velocity will be determined by intermediate-sized obstacles where regelation and creep velocities are equal, which can be determined by solving for $a$ at which $u_R = u_c$
+\begin{equation}
+a = \tau_b^{\frac{1-n}{2}} \left(\frac{\lambda}{a} \right)^{n-1} \left( \frac{k \beta}{\rho L A} \right)^{\frac{1}{2}} .
+\end{equation}
+\begin{shaded}
+At this optimal intermediate obstacle size, the total sliding velocity ($u_s$) is given as the sum of sliding from both processes
+\begin{equation}
+u_s = u_R + u_c = 2u_c = C \left(\frac{a}{\lambda} \right)^{n+1} \tau_b^{\frac{n+1}{2}}
+\end{equation}
+
+Alternatively, on a relatively smooth bed where there are only large obstacles, the sliding velocity is set by the creep velocity around large obstacles (i.e. regelation is negligible)
+\begin{equation}
+u_s = u_c = C \tau_b^n
+\end{equation}
+\end{shaded}
+In many ice sheet models use for simulating ice flow in Greenland and Antarctica, this type of ``power law'' relationship between $u$ and $\tau_b$ is used, with the coefficient, $C$,determined through an ``inversion'' of measured surface velocities. In practice inversion is a computational method used to find the value of $C$ that minimizes the mismatch between the observed surface velocities and those predicted by equations for ice flow velocity (e.g. SSA). There is a very rich body of work on inversion for $C$ going back to \cite{macayeal1993:inversion}, which continues to today. In practice, because it is so difficult to access many of the places within and under the ice sheet we would like to measure, such methods are use to infer parameters like $C$ (and $A$ in Glen's flow law, and and subglacial topography and sub-ice shelf melt rate, etc.).
+
+\section{Lliboutry's theory of sliding and cavitation}
+
+In practice, Weertman's theory makes two predictions:
+\begin{enumerate}
+\item Velocities should generally be low where the bed is very rough, typically under mountain glaciers
+\item Velocities shouldn't change if the geometric and friction properties of the bed don't change
+\end{enumerate}
+The problem with Weertman's theory is that glacier velocities have been observed to be higher, even for mountain glaciers where the bed is known (by direct observation through ice caves) to be very rough, and glacier velocities vary strongly over seasonal times scales in concert with surface melting on glaciers (which isn't large enough to have a non-negligible effect on the glacier driving stress).
+
+Lliboutry argued in many papers (going back and forth with Weertman throughout the 1960's and beyond) that \textbf{cavitation} is critical to understanding the relationship between sliding velocity and basal shear stress. \textbf{Cavitation is the formation of open spaces (i.e. cavities) between the ice and the bed where none of the weight of the ice (and associated basal shear stress) is being taken up by the bed (see schematic to right).}
+\begin{wrapfigure}{r}{0.5\textwidth}
+  \begin{center}
+\includegraphics[width=0.5\textwidth]{Cavitation.pdf}
+  \end{center}
+  \vspace{-20pt}
+\end{wrapfigure}
+
+If the cavity is filled by air, then the local weight of ice will generally be enough to close the cavity and maintain ice-bed contact. However, where water fills these cavities (either through generation at the ice-bed interface, or generated at the surface and then drained to the bed, we will discuss this more when we talk about glacier hydrology), the water pressure pushes back against the weight of the ice and has the potential to maintain a water-filled cavity.
+
+We define an ``effective pressure'', $N$ to quantify the balance between the weight of the ice and subglacial water pressure
+\begin{equation}
+N = \rho g H - p_w
+\end{equation}
+where $p_w$ is the water pressure.
+
+Lliboutry's early work on sliding \cite[]{lliboutry1968}, builds upon Weertman's earlier work focused on regelation and creep by arguing that as cavities become larger, they will cause more of the ``small'' obstacles to be submerged within cavities in the lee of large obstacles. In Weertman's theory, the controlling obstacle size which balances regelation and creep velocities is generally small (i.e. mm) because obstacles need to be small to conduct significant amounts of heat efficiently. However, in Lliboutry's theory, small obstacles become unimportant and the controlling balance is between enhanced creep around obstacles and creep with cavitation. The controlling obstacle size in this balance is more like 10's of centimeters, with the ability to produce sliding velocities of 10's of meters/year, as observed in many actual glaciers.
+
+\section{Iken's bound}
+
+Iken showed that as subglacial water pressure increased, it would eventually reach a threshold beyond which cavities would essentially cover the whole bed and the glacier driving stress would not be balanced by basal friction, causing it (in principle) to accelerate without bound (though this ignores resistance from other parts of the glacier). This Iken's ``bound'' can be derived for a variety of bed shapes. Here we will consider a sloped ``washboard'' bed as considered in Iken's original paper \cite[]{iken1981} - see figure below (all illustrations in this section taken from special paper by Christiana Mavroyiakoumou).
+\begin{figure}
+  \begin{center}
+\includegraphics[width=0.8\textwidth]{IkenWashboard.png}
+  \end{center}
+\end{figure}
+
+The bed has average slope $\alpha$, and steps with faces labelled $b$ and $c$. The weight of the ice is given by $F = \rho g h \lambda$ where $\lambda$ is the along-slope length between bed obstacles and $h$ is the ice thickness. The component of the ice weight on each surface of the step (see illustration in figure below) is given by
+\begin{align}
+F_b &= \rho g h \lambda \cos(\beta-\alpha) \\
+F_c &= \rho g h \lambda \sin(\beta-\alpha)
+\end{align}
+where $\beta$ is the angle between the step surface and the average bed slope. Correspondingly, the pressure on each surface is the average force over the length of the surface
+\begin{align}
+p_b &= \rho g h \frac{\cos(\beta-\alpha)}{\cos(\beta)} \\
+p_c &= \rho g h \frac{\sin(\beta-\alpha)}{\sin(\beta)}
+\end{align}
+\begin{wrapfigure}{r}{0.4\textwidth}
+  \begin{center}
+\includegraphics[width=0.4\textwidth]{IkensSurface.png}
+  \end{center}
+  \vspace{-20pt}
+\end{wrapfigure}
+
+$p_c$ is the pressure of the ice into the obstacle. If there is water between the ice and the bed, it will push in opposition to $p_c$ with a pressure $p_w$. If $p_w>p_c$ then the ice will accelerate away from the bed, which as we can imagine is not a tenable steady-state (though such a situation may occur in special circumstances when a large volume of water is injected into a bed or enters a region of the bed during a lake drainage event or Jokulhlaup). Thus, in order to have steady sliding it must be the case the $p_w \leq p_c$. This constraint on subglacial water pressure is referred to as \textbf{Iken's bound}. 
+
+We can rewrite $p_c$ in terms of variables that we know by noting that $p_i = \rho g h \cos \alpha$ is the ice overburden stress perpendicular to the average bed slope and $\tau_b = \rho g h \sin \alpha$ is the basal shear stress. Thus, $p_c$ from above can be rewritten
+\begin{align}
+p_c &= p_i \frac{\sin(\beta-\alpha)}{\sin(\beta) \cos(\alpha)} \\
+p_c &= p_i \frac{\sin(\beta) \cos(\alpha)-\cos(\beta) \sin(\alpha)}{\sin(\beta) \cos(\alpha)} \\
+p_c &= p_i (1-\frac{\tan(\alpha)}{\tan(\beta)} \\
+p_c &= p_i - \frac{\tau_b}{\tan(\beta)}
+\end{align}
+\begin{shaded}
+Written in terms of effective pressure, Iken's bound is
+\begin{equation}
+N \geq \frac{\tau_b}{\tan(\beta)}
+\end{equation}
+\end{shaded}
+For other bed obstacles shapes (i.e. a sinusoidal bed), the right hand side of Iken's bound may have other constants which are a function of bed geometry, but generally will be proportional to $\tau_b$. It should be noted that for the tombstone bed, $\tan \beta \approx a / \lambda$.
+
+The point of Iken's is not to say that water pressure will never be above it, but rather that the ice surface in contact with bed surface $c$ in the above illustration needs take a different shape in order to prevent being accelerated away. Iken's suggestion is that at water pressures above $p_c$, cavitation will occur, modifying the lower ice surface shape and reducing the area over which ice-bed friction occurs. As $\tau_b$ or sliding velocity increase, $p_c$ decreases meaning that for a constant water pressure, an increase in velocity or basal shear stress will bring the water pressure above Iken's bound and lead to more cavitation, and leading to reduced influence of $\tau_b$ over a larger area. Increased water pressure leads to a lower rate of ice creep into the cavity (which is proportional to $N$).
+
+\begin{shaded}
+In conclusion, $\frac{\tau_b}{N}$ is a reliable measure of the fraction of the lower surface of a glacier in contact with the bed. Consequently, a more comprehensive sliding law is typically considered:
+\begin{equation}
+u_b = C \frac{\tau_b^p}{N^q}
+\end{equation}
+\end{shaded}
+
+\bibliography{/Users/robel/Dropbox/Docs/refs.bib}
+\bibliographystyle{apalike}
+
+\end{document}

@@ -1,0 +1,115 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}	% Para caracteres en español
+\usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+\usepackage{multirow,booktabs}
+\usepackage[table]{xcolor}
+\usepackage{fullpage}
+\usepackage{lastpage}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{mathrsfs}
+\usepackage{wrapfig}
+\usepackage{setspace}
+\usepackage{calc}
+\usepackage{natbib}
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage[retainorgcmds]{IEEEtrantools}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\newlength{\tabcont}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.05in}
+\usepackage{empheq}
+\usepackage{framed}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\colorlet{shadecolor}{orange!15}
+\parindent 0in
+\parskip 12pt
+\geometry{margin=1in, headsep=0.25in}
+\theoremstyle{definition}
+\newcommand{\pd}[2]{\frac{\partial {#1}}{\partial {#2}}}
+\newcommand{\mytilde}{\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}
+\newtheorem{defn}{Definition}
+\newtheorem{reg}{Rule}
+\newtheorem{exer}{Exercise}
+\newtheorem{note}{Note}
+\begin{document}
+
+\thispagestyle{empty}
+
+\begin{center}
+{\LARGE \bf Ice Stream Velocity}\\
+{\large GT EAS 4803/8803}\\
+\end{center}
+
+Let us consider an ice stream of half-width $W$, which is primarily flowing in one direction.
+
+\begin{figure}[h]
+  \begin{center}
+\includegraphics[width=0.3\textwidth]{ISvelfig.pdf}
+  \end{center}
+  \vspace{-20pt}
+\end{figure}
+
+First, we can go back to the high-order ice flow approximation for ice flow along the x-direction:
+\begin{equation}
+4 \pd{}{x} \left( \eta \pd{u}{x} \right) + 2 \pd{}{x} \left( \eta \pd{v}{y} \right) + \pd{}{y} \left( \frac{\eta}{2} \left(\pd{u}{y} + \pd{v}{x} \right) \right) + \pd{}{z} \left(\eta \pd{u}{z} \right) = \rho g \pd{h}{x}
+\end{equation}
+Let us make two key assumptions: (1) flow is primarily along the x-direction ($u>>v$) and the changes in velocity along flow are negligible ($\pd{u}{x}$ is small). This leaves
+\begin{equation}
+\pd{}{y} \left( \frac{\eta}{2} \pd{u}{y} \right) + \pd{}{z} \left(\eta \pd{u}{z} \right) = \rho g \pd{h}{x}
+\end{equation}
+Reminding ourselves that $\eta \pd{u}{z} = \tau_{xz}$ and $\tau_d = \rho g \pd{h}{x}$. We can then integrate this equation with respect to depth ($z$), producing
+\begin{equation}
+h \pd{}{y} \left( \frac{\eta}{2} \pd{u}{y} \right) + \left(\tau_{xz}|_{z=h} - \tau_{xz}|_{z=0}  \right) = \tau_d
+\end{equation}
+Shear stress at the ice sheet surface should be negligible ($\tau_{xz}|_{z=h} = 0$), and $\tau_{xz}|_{z=0}$ is simply the basal shear stress, $\tau_b$, leaving
+\begin{equation}
+h \pd{}{y} \left( \frac{\eta}{2} \pd{u}{y} \right) = \tau_d - \tau_b
+\end{equation}
+We can now integrate along the y-direction, starting from the center of the ice stream where $\tau_{xy}$ will be small to the ice stream edge (i.e. the ``shear margin'')
+\begin{equation}
+h \int_0^y \pd{}{y} \left( \frac{\eta}{2} \pd{u}{y} \right) dy = \int_0^y \left( \tau_d - \tau_b \right) dy
+\end{equation}
+Giving
+\begin{equation}
+ \frac{\eta}{2} \pd{u}{y} = \frac{y}{h} \left( \tau_d - \tau_b \right)
+\end{equation}
+It is now useful to re-examine the effective viscosity of ice in the higher-order approximation
+\begin{equation}
+\eta = A^{-1/n} \left(\frac{1}{2} \left(\dot{\epsilon}_{xx}^2 + \dot{\epsilon}_{yy}^2 + \dot{\epsilon}_{zz}^2 \right) + \dot{\epsilon}_{xz}^2 + \dot{\epsilon}_{xy}^2 \right)^{\frac{1-n}{2n}}
+\end{equation}
+Vertical strain rates and along-flow strain rates are all negligible compared to the cross-flow strain rates, causing all these terms to drop out except the last one
+\begin{equation}
+\eta = A^{-1/n} \left(\frac{1}{2} \dot{\epsilon}_{xy} \right)^{\frac{1-n}{n}}
+\end{equation}
+Inserting this back into the momentum balance above (noting that $\dot{\epsilon}_{xy} = \pd{u}{y}$), we have
+\begin{equation}
+ \frac{1}{2} \left( \pd{u}{y} \right)^{1/n} = \frac{y}{h} \left( \tau_d - \tau_b \right)
+\end{equation}
+This equation can be integrated one final time in the y-direction
+\begin{equation}
+\int_0^y \pd{u}{y} dy = \int_0^y \frac{2^n A y^n}{h^n} \left( \tau_d - \tau_b \right)^n dy
+\end{equation}
+Leading to (with some reorganization)
+\begin{shaded}
+\begin{equation}
+u(y) = U_d \left[1-\left( \frac{y}{W} \right)^{n+1} \right] W^{n+1} \left(\tau_d - \tau_b \right)^n
+\end{equation}
+where $U_d = \frac{2^n A}{h^n (n+1)}$.
+\end{shaded}
+A plot of the shape of velocity in an ice stream profile can be seen below.
+
+\begin{figure}[h]
+  \begin{center}
+\includegraphics[width=0.4\textwidth]{uy.eps}
+  \end{center}
+  \vspace{-20pt}
+\end{figure}
+
+\bibliography{/Users/robel/Dropbox/Docs/refs.bib}
+\bibliographystyle{apalike}
+
+\end{document}

@@ -1,0 +1,152 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}	% Para caracteres en español
+\usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+\usepackage{multirow,booktabs}
+\usepackage[table]{xcolor}
+\usepackage{fullpage}
+\usepackage{lastpage}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{mathrsfs}
+\usepackage{wrapfig}
+\usepackage{setspace}
+\usepackage{calc}
+\usepackage{natbib}
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage[retainorgcmds]{IEEEtrantools}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\newlength{\tabcont}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.05in}
+\usepackage{empheq}
+\usepackage{framed}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{wrapfig,graphicx}
+\colorlet{shadecolor}{orange!15}
+\parindent 0in
+\parskip 12pt
+\geometry{margin=1in, headsep=0.25in}
+\theoremstyle{definition}
+\newcommand{\pd}[2]{\frac{\partial {#1}}{\partial {#2}}}
+\newcommand{\mytilde}{\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}
+\newtheorem{defn}{Definition}
+\newtheorem{reg}{Rule}
+\newtheorem{exer}{Exercise}
+\newtheorem{note}{Note}
+\begin{document}
+
+\thispagestyle{empty}
+
+\begin{center}
+{\LARGE \bf Grounding Line Flux and Stability}\\
+{\large GT EAS 4803/8803}\\
+\end{center}
+
+\section{Grounding Line Flux}
+
+Consider the one-dimensional momentum and mass balance across the grounding line 
+\begin{align}
+2 \pd{}{x} \left( \eta \pd{u}{x} \right) - \tau_b &= \rho_i g H \pd{H}{x} \\
+\pd{H}{t} + \pd{}{x} \left(u H \right) &= a
+\end{align}
+where $H$ is the ice thickness, $a$ is the accumulation from snowfall, and $\tau_b$ is the basal shear stress. The first equation above is the along-flow momentum balance for the shallow shelf approximation (SSA), which assumes that vertical shear of horizontal velocity is negligible and ice velocity in the across-stream direction ($v$) is also negligible. Thus, we are only consider the dominant horizontal velocity $u$ along the center line of an ice stream or outlet glacier that is sliding at the bed.
+
+Upstream of the grounding line, we can make a few key assumptions:
+\begin{enumerate}
+\item Ice thickness is at a steady-state: $\pd{H}{t} = 0$
+\item The contribution of snowfall to the mass balance is negligible compared to the flux gradient: $a=0$
+\item The basal shear stress is related to horizontal velocity through a power law (i.e. a Weertman-like sliding law): $\tau_b = Cu^{1/m}$ where $m$ is typically taken to be equal to the Glen's law exponent, $n=3$.
+\item Extensional stress upstream of the grounding line is negligible: $\pd{}{x} \left( \eta \pd{u}{x} \right) = 0$
+\end{enumerate}
+The result of these assumptions are two simplified equations for the steady-state ice flow upstream of the grounding line:
+\begin{align}
+- Cu^{1/m} &= \rho_i g H \pd{H}{x} \\
+\pd{}{x} \left(u H \right) &= 0
+\end{align}
+Combining these equations through $\pd{H}{x}$ leads to an implicit equation for the profile of ice velocity and ice thickness entering the grounding line
+\begin{equation}
+\label{eq:upstream}
+u^{\frac{m+1}{m}} = \frac{\rho_i g H^2}{C} \pd{u}{x}
+\end{equation}
+\begin{figure}[h]
+  \begin{center}
+\includegraphics[width=0.7\textwidth]{GroundingLine.pdf}
+  \end{center}
+\end{figure}
+At the grounding line itself, there is no basal shear stress, and the momentum balance changes to be a balance between extensional stresses and the buoyancy of seawater (see figure below)
+\begin{equation}
+2 A^{-1/n} H \left(\pd{u}{x} \right)^{1/n} = \frac{1}{2} \rho_i g \left(1 - \frac{\rho_i}{\rho_w} \right) H^2
+\end{equation}
+which can be re-arranged
+\begin{equation}
+\pd{u}{x} = \left[\frac{1}{4} \rho_i A^{1/n} g \left(1 - \frac{\rho_i}{\rho_w} \right) H \right]^n
+\end{equation}
+\begin{shaded}
+Inserting this into the profile from upstream (equation \ref{eq:upstream}), we have an explicit equation for the ice velocity at the grounding line only in terms of the ice thickness
+\begin{equation}
+u = \left[\frac{1}{4} \rho_i g \left(1 - \frac{\rho_i}{\rho_w} \right) \left(\frac{A \rho_i g}{C} \right)^{1/n} \right]^{\frac{nm}{m+1}} H^{\frac{(n+2)m}{m+1}}
+\end{equation}
+Which can also be written in terms of the grounding line ice flux
+\begin{equation}
+q = \left[\frac{1}{4} \rho_i g \left(1 - \frac{\rho_i}{\rho_w} \right) \left(\frac{A \rho_i g}{C} \right)^{1/n} \right]^{\frac{nm}{m+1}} H^{\frac{(n+3)m+1}{m+1}}
+\end{equation}
+\end{shaded}
+Two quick notes about these equations and this derivation can be made. First, it may seem strange that to arrive at this solution it seems like we make two conflicting assumptions about the dominant terms in the momentum balance (basal shear stress and driving stress upstream and extensional stress and buoyancy downstream). However, this simply reflects the fact that the grounding line is a transition zone (or formally a boundary layer in the canonical version of this derivation, the mathematically curious may refer to \cite{schoof-2007:marine-pt1}) between regions with two difference momentum balances and so the ice velocity within this zone is a combination of the two. The derivation above is a shortcut to this solution, but it makes self consistent sense even in a more formal boundary layer analysis of the grounding zone.
+
+Second, the exponent on the grounding line flux is highly nonlinear ($=4.75$ for $m=n=3$), which will contribute to important implications for stability (and instability) of the grounding line. We will consider these issues in the next section.
+
+\begin{center}
+\color{red}{The flux of ice through the grounding line has received considerable attention in the mathematical glaciology community in recent years. The above derivation follows a simplified version of the argument put forth in Schoof two influential papers on the subject \cite[]{schoof-2007:marine-pt1, schoof-2007:marinehysteresis}, which was laid out by \cite{hindmarsh2012:GLflux}. More recently, several authors have revised this theory to account for the influence of ice shelves, calving and other important processes \cite[]{pegler2016:confshelf, schoof2017:GLBL, haseloff2018:GLshelf}.}
+\end{center}
+
+\section{Grounding Line Stability}
+
+The ``marine ice sheet instability'' is an idea that results from the essential fact, that if grounding line flux increases with the depth of the bed at the grounding line (as we found in the previous section), then grounding lines which retreat onto beds which deepen upstream will continue to increase their flux and retreat further inland (producing a positive feedback between flux and retreat) without any further changes in climate (i.e. parameters). We can understand the circumstances under which such an instability occurs by writing down a simple dynamical system model for the mass budget of a glacier, and then do a linear stability analysis.
+\begin{figure}[h]
+  \begin{center}
+\includegraphics[width=1.0\textwidth]{GL_boxmodel.pdf}
+  \end{center}
+\end{figure}
+
+We assume that a marine-terminating glacier is like a ``reservoir'' of ice, where snowfall adds ice over the surface of the glacier, and the ice flux through the grounding line removes ice (see figure above). A dynamical system that describes this balance is
+\begin{equation}
+h_g \frac{dL}{dt} = PL - \gamma h_g^\beta
+\end{equation}
+where $h_g  = -\frac{\rho_w}{\rho_i} b(L)$ is the ice thickness at the grounding line, which by definition (of a grounding line) is the last place where the ice is still in contact with the bed, but has weight that is exactly balanced by the buoyancy force of seawater, thus: $\rho_i g h_g = -\rho_w g b(L)$ where $b(L)$ is the depth of the bed above sea level, as a function of grounding line position, $L$ along the x-axis (where $x=0$ is the ice divide), $P$ is the rate at which snowfall adds ice to the glacier surface, and $\gamma h_g^\beta$ is a generic form of the grounding line flux written as a nonlinear function of grounding line ice thickness.
+
+As we practiced in our introductory lesson on linear stability analysis, for a one-equation dynamical system, the linear stability is simply calculated in three steps:
+\begin{enumerate}
+\item Calculate fixed point: 
+\begin{align}
+0 = h_g \frac{dL}{dt} &= PL - \gamma h_g^\beta \\
+PL  &= \gamma h_g^\beta
+\end{align}
+This fixed point is the solution to the implicit equation above, but this won't turn out to be an issue to solving explicitly for the linear stability, as we will see below.
+\item Calculate the derivative of the right hand side of the dynamical system (having moved $h_g$ to the right hand side):
+\begin{align}
+& \frac{d}{dL} \left(PL - \gamma h_g^\beta \right) \\
+& Ph_g^{-1} - PL \frac{dh_g}{dL} h_g^{-2} - (\beta-1) \gamma h_g^{\beta-2} \frac{dh_g}{dL} \\
+& Ph_g^{-1} + \left[PL h_g^{-2} + (\beta-1) \gamma h_g^{\beta-2} \right] \frac{\rho_w}{\rho_i} \frac{db}{dx}
+\end{align}
+where $\frac{dh_g}{dL} = \frac{\rho_w}{\rho_i} \frac{db}{dx}$ with $\frac{db}{dx}$ being the bed slope.
+\item Finally, we evaluate the linear stability at the fixed point by making the substitution: $PL h_g^{-2}  = \gamma h_g(L)^{\beta-2}$ to get
+\begin{equation}
+Ph_g^{-1} \left[1 + \beta L h_g^{-1} \frac{\rho_w}{\rho_i} \frac{db}{dx} \right]
+\end{equation}
+As we learned previously, where the linear stability is positive, the system is unstable, so
+\begin{align}
+Ph_g^{-1} \left[1 + \beta L h_g^{-1} \frac{\rho_w}{\rho_i} \frac{db}{dx} \right] &> 0 \\
+\frac{db}{dx} &> - \frac{h_g}{\lambda \beta L}
+\end{align}
+\end{enumerate}
+The typical scale of a large marine-terminating glacier in Greenland or Antarctica ($h \mytilde 1000$ m, $L \mytilde 100$ km), suggests that the right hand side of this inequality will be $O(10^{-3})$. \textbf{Our conclusion is thus that all reverse-sloping beds ($b_x>0$) and even some weakly forward-sloping beds will leads to the marine ice sheet instability.}
+
+
+\bibliography{/Users/robel/Dropbox/Docs/refs.bib}
+\bibliographystyle{apalike}
+
+\end{document}

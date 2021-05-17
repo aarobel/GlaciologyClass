@@ -1,0 +1,125 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}	% Para caracteres en español
+\usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+\usepackage{multirow,booktabs}
+\usepackage[table]{xcolor}
+\usepackage{fullpage}
+\usepackage{lastpage}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{mathrsfs}
+\usepackage{wrapfig}
+\usepackage{setspace}
+\usepackage{calc}
+\usepackage{natbib}
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage[retainorgcmds]{IEEEtrantools}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\newlength{\tabcont}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.05in}
+\usepackage{empheq}
+\usepackage{framed}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{wrapfig,graphicx}
+\colorlet{shadecolor}{orange!15}
+\parindent 0in
+\parskip 12pt
+\geometry{margin=1in, headsep=0.25in}
+\theoremstyle{definition}
+\newcommand{\pd}[2]{\frac{\partial {#1}}{\partial {#2}}}
+\newcommand{\mytilde}{\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}
+\newtheorem{defn}{Definition}
+\newtheorem{reg}{Rule}
+\newtheorem{exer}{Exercise}
+\newtheorem{note}{Note}
+\begin{document}
+
+\thispagestyle{empty}
+
+\begin{center}
+{\LARGE \bf The Ice-Ocean Boundary Layer}\\
+{\large GT EAS 4803/8803}\\
+\end{center}
+
+Changes in ocean properties (temperature, salinity, velocity) may cause ice in contact with the ocean to melt. We would like to be able to calculate this melt rate, but in practice, it is controlled by the dynamics of ocean water in a very thin layer near the ice-ocean interface which is very difficult to measure or simulate in a large-scale ocean model. Thus, we need an approximation for the properties in this ``boundary layer'' based on the large-scale properties of the ocean that can be measured or simulated. \textcolor{red}{In the discussion that follows, we consider the derivation of the classical ``three-equation'' formulation of ice-ocean interaction by \cite{hollandj1999:meltparam} (sometimes referred to as the Jenkins parameterization).} 
+
+\begin{figure}[h]
+  \begin{center}
+\includegraphics[width=1.0\textwidth]{BoundaryLayerSchematic.pdf}
+  \end{center}
+\end{figure}
+
+We consider the interface between an ice shelf and the ocean (schematic above). There are three regions of interest, each with its own variable or prescribed temperature and salinity:
+\begin{enumerate}
+\item The far-field (or ``ambient'') ocean in which the temperature, $T_M$, and salinity, $S_M$, are known (either from measurements or calculated in a large-scale ocean model).
+\item The ice (in ice shelf or other glacier body in contact with the ocean), in which the temperature, $T_I$ (or temperature gradient) and salinity, $S_I$ are known or calculated in an ice sheet model
+\item The boundary layer region of the ocean right at the ice-water interface which may be of a scale of mm to meters, in which the temperature, $T_B$ and salinity, $S_B$ must be determined (because it is too narrow a region to measure or simulate in a large scale model).
+\end{enumerate}
+At the ice-ocean interface, we assume that water is right at the melting point, which depends on the salinity and temperature through
+\begin{equation}
+T_B = aS_B + b + cp_B
+\end{equation}
+where the above equation is a linearization of the equation of state for seawater (i.e. the equation which quantifies how density changes as a function of water properties).
+
+In the boundary layer, we consider the budgets of heat and salt, where fluxes from the other two components (ice and the ocean) contribute to setting the temperature and salinity within the boundary layer. The heat flux budget for the boundary layer is
+\begin{equation}
+\label{eq:Hflux}
+\underbrace{Q_I^T}_{\text{Heat flux into ice}} - \underbrace{Q_M^T}_{\text{Heat flux from ocean}} = \underbrace{Q_{latent}^T}_{\text{Latent heat flux due to melting/freezing of ice}}
+\end{equation}
+The latent heat flux from melting/freezing of ice is
+\begin{equation} Q_{latent}^T = -\rho_M \dot{m} L_F \end{equation}
+where $\dot{m}$ is the melt rate of ice (positive indicating melting, negative indicating freezing).
+
+The salt flux budget for the boundary layer is
+\begin{equation}
+\label{eq:Sflux}
+\underbrace{Q_I^S}_{\text{Salt flux into ice}} - \underbrace{Q_M^S}_{\text{Salt flux from ocean}} = \underbrace{Q_{brine}^S}_{\text{Salt flux due to melting/freezing of ice}}
+\end{equation}
+Where again, the total salt flux from melting/freezing can be calculate
+\begin{equation} Q_{brine}^S = \rho_M \dot{m} (S_I - S_B) \end{equation}
+we can make two safe assumptions about glacial ice:
+\begin{align}
+Q_I^S &= 0 \\
+S_I &= 0
+\end{align}
+which respectively are the assumptions that water cannot flux salt into solid ice, and that the salinity of glacial ice is negligible (not zero, but not significant compared to the salinity of the ocean).
+
+So, now that we have heat and salt budgets for the boundary layers, we can use them to solve for the melt rate ($\dot{m}$), which is ultimately that is of interest in this problem. To do so, we need to know the various $Q$ fluxes in the above budgets. The most typical assumption in such a boundary layer problem is that the flux is proportional to the gradient:
+\begin{align}
+Q_I^T &= -\rho_I c_{pI} \kappa _I^T \pd{T_I}{z} \big|_B \\
+Q_M^T &= -\rho_M c_{pM} \kappa _M^T \pd{T_M}{z} \big|_B
+\end{align}
+where each gradient above corresponds to the gradients in the ice and ocean, just adjacent to the boundary layer, respectively. $c$ and $\kappa$ are the specific heat capacity and thermal diffusivity, respectively, of the material in question. In a model or with a borehole, the temperature gradient in the ice near the boundary layer ($\pd{T_I}{z}$) could be estimated, though often this flux will be relatively weak compared to the ocean, and so assumed to be zero for simplicity.
+
+\begin{figure}[h]
+  \begin{center}
+\includegraphics[width=1.0\textwidth]{laminarturbulent.pdf}
+  \end{center}
+\end{figure}
+
+Most of the physics and difficult assumptions in the ice-ocean boundary layer problem come in estimating the heat (and salt) flux from the far-field ocean into the boundary layer. One approach may be to assume that water flow in the boundary layer is laminar (i.e. sufficiently slow such that turbulence is not generated and along-surface velocities dominate, see schematic above). In such a case, the flux can be approximated as
+\begin{equation} Q_M^T = - \rho_M c_{pM} \kappa _M^T \frac{T_B-T_M}{h} \end{equation}
+where $\kappa _M^T$ is the molecular thermal diffusivity and $h$ is the thickness of the boundary layer. However, in reality the boundary layer is fully turbulent \footnote{This is actually not obviously true for all ice-ocean interfaces, but we will not tackle that issue here, we simply follow the assumption of \cite{hollandj1999:meltparam} and virtually every other treatment of this topic.}, and so we must use empirical estimates of the thermal diffusivity, which are dependent on the Nusselt number ($Nu$)
+\begin{equation} \label{eq:turbBLf} Q_M^T = - \rho_M c_{pM} \left( \frac{Nu \kappa _M^T}{h} \right) \left(T_B-T_M \right) \end{equation}
+where $Nu \mytilde 1$ corresponds to a nearly laminar boundary layer and $Nu > 100$ is a fully turbulent boundary layer. In fully laminar boundary layers, the parameters governing the rate of heat transfer across the boundary layer are typically grouped into a parameter
+\begin{equation}
+\gamma_T = \frac{Nu \kappa_M^T}{h}
+\end{equation}
+which is called the thermal exchange velocity. This parameter is the source of almost all the uncertainty in this parameterization for the ice-ocean boundary layer, since the extent of turbulence, boundary layer thickness and diffusivity are not well known and can vary depending on the near-field water velocity, ice roughness and other physical parameters which are difficult to measure in practice.
+
+\begin{shaded}
+At this point, if we assume that salinity is the same in the boundary layer as in the far-field ocean, then the system of equations given by (\ref{eq:turbBLf}), (\ref{eq:Hflux}), and (\ref{eq:Sflux}) can be solved for the melt/freezing rate of ice and the temperature in the boundary layer ($\dot{m}$, $T_B$). This is typically called the ``two-equation'' formulation. \\
+Alternately, we can make a similar assumption for the salt flux from the ocean to the boundary layer as we did for the heat flux
+\begin{equation} \label{eq:turbBLfS} Q_M^S = - \rho_M \gamma_S \left(S_B-S_M \right) \end{equation}
+where $\gamma_S$ is the salinity exchange velocity. This adds an additional equation that must be solved (for $\dot{m}$, $T_B$ and $S_B$), and so this version of the boundary layer parameterization is called the ``three-equation'' formulation.
+\end{shaded}
+
+\bibliography{/Users/robel/Dropbox/Docs/refs.bib}
+\bibliographystyle{apalike}
+
+\end{document}

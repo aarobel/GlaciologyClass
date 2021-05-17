@@ -1,0 +1,196 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}	% Para caracteres en español
+\usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+\usepackage{multirow,booktabs}
+\usepackage[table]{xcolor}
+\usepackage{fullpage}
+\usepackage{lastpage}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{mathrsfs}
+\usepackage{wrapfig}
+\usepackage{setspace}
+\usepackage{calc}
+\usepackage{natbib}
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage[retainorgcmds]{IEEEtrantools}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\newlength{\tabcont}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.05in}
+\usepackage{empheq}
+\usepackage{framed}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\colorlet{shadecolor}{orange!15}
+\parindent 0in
+\parskip 12pt
+\geometry{margin=1in, headsep=0.25in}
+\theoremstyle{definition}
+\newcommand{\pd}[2]{\frac{\partial {#1}}{\partial {#2}}}
+\newcommand{\mytilde}{\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}
+\newtheorem{defn}{Definition}
+\newtheorem{reg}{Rule}
+\newtheorem{exer}{Exercise}
+\newtheorem{note}{Note}
+\begin{document}
+
+\thispagestyle{empty}
+
+\begin{center}
+{\LARGE \bf Ice Flow Approximations}\\
+{\large GT EAS 4803/8803}\\
+\end{center}
+\begin{center} \textcolor{red}{A reminder: $\sigma$ is stress, and $\tau$ is deviatoric stress} \end{center}
+\section{Start from Stokes}
+We start with the Stokes Flow equation
+\begin{equation}
+\nabla \cdot \sigma + \rho g = 0
+\end{equation}
+which describes the steady flow of a fluid in which inertial forces are small. Though this equation seems simple, it hides significant complexity in $\sigma$ which is actually a tensor (i.e. like a matrix) of stresses. \\
+
+\begin{shaded}
+Expanding the Stokes flow equation into the three basic coordinates we have
+\begin{align}
+x: \pd{\sigma_{xx}}{x} + \pd{\sigma_{xy}}{y} + \pd{\sigma_{xz}}{z} = 0 \\
+y: \pd{\sigma_{xy}}{x} + \pd{\sigma_{yy}}{y} + \pd{\sigma_{yz}}{z} = 0 \\
+z: \pd{\sigma_{xz}}{x} + \pd{\sigma_{yz}}{y} + \pd{\sigma_{zz}}{z} = \rho g
+\end{align}
+where the subscripts on $\sigma_{ij}$ terms denote the stress pointed in the $i$ direction, applied on the $j$-normal face (you can refer to the continuum mechanics notes for a reminder of the indexing convention). \end{shaded} 
+
+The general form of a viscous ice sheet model is to solve these equations for $\sigma$ and then the velocities, $\vec{u}$. In practice, solving the \textcolor{red}{``Full Stokes'' flow equations} is computationally expensive, and not necessary for many situations. Thus, various approximations are made in order to simplify these equations, as is the case in many other fields in geosciences (e.g. the Boussinesq approximation for buoyancy-driven flows in the ocean/atmosphere).
+
+\section{The Hydrostatic Approximation}
+
+Stress in the vertical direction ($z$) is dominated by the weight of ice under gravity. This ``glaciostatic pressure'' can thus be assumed to equal $\sigma_{zz}$, 
+\begin{equation}
+\sigma_{zz} = P = \rho g H
+\end{equation}
+where $\rho$ is the density of ice, $g$ is the gravitational acceleration, and $H$ is the ice thickness. This assumption is often called the hydrostatic approximation by analogy to the hydrostatic assumption typically employed in ocean/atmosphere models.
+
+In ice sheets on Earth, it is pretty much always the case (as long as $H<<L$, i.e. the 
+``thin film approximation'') that
+\begin{align}
+\rho g H >> \sigma_{xz} \\
+\rho g H >> \sigma_{yz}
+\end{align}
+which is to say that the weight of ice is much larger than vertical shear in the ice velocity. This dominant balance allows us to simplify the z momentum balance in the Full Stokes flow equations to
+\begin{equation}
+\pd{\sigma_{zz}}{z} = \rho g
+\end{equation}
+which is integrated in $z$
+\begin{equation}
+\int_z^H \pd{\sigma_{zz}}{z'} dz' = \int_z^H \rho g dz'
+\end{equation}
+which, assuming the surface is stress free (i.e. $\sigma_{zz}(z=H) = 0$), leads to
+\begin{equation}
+\sigma_{zz} = - \rho g (H-z).
+\end{equation}
+Switching back to deviatoric stresses, this allows us to write
+\begin{align}
+\tau_{xx} +& \tau_{yy} + \tau_{zz} = 0 \\
+\tau_{xx} +& \tau_{yy} + \sigma_{xx} - P = 0 \\
+\tau_{xx} +& \tau_{yy} - \rho g (H - z) = P
+\end{align}
+which can then be inserted into the equations for horizontal stresses
+\begin{align}
+\sigma_{xx} &= \tau_{xx} + P = 2 \tau_{xx} + \tau_{yy} - \rho g (H - z) \\
+\sigma_{yy} &= \tau_{yy} + P = 2 \tau_{yy} + \tau_{xx} - \rho g (H - z)
+\end{align}
+which gives the following system of equations describing the simplified hydrostatic momentum balance
+\begin{shaded}
+\begin{align}
+2 \pd{\tau_{xx}}{x} + \pd{\tau_{yy}}{x} + \pd{\sigma_{xy}}{y} + \pd{\sigma_{xz}}{z} &= \rho g \pd{H}{x} \\
+2 \pd{\tau_{yy}}{y} + \pd{\tau_{xx}}{y} + \pd{\sigma_{xy}}{x} + \pd{\sigma_{yz}}{z} &= \rho g \pd{H}{y} \\
+\tau_{xx} + \tau_{yy} + \tau_{zz} &= 0
+\end{align}
+where the final equation is the incompressibility condition. We can re-introduce ice rheology through the Nye-Glen constitutive law
+\begin{align}
+\tau_{xx} &= 2 \eta \dot{\epsilon}_{xx} \\ 
+\tau_{yy} &= 2 \eta \dot{\epsilon}_{yy} \\
+\sigma_{xz} &= \eta \left(\dot{\epsilon}_{xz} + \dot{\epsilon}_{zx} \right) \\
+\sigma_{yz} &= \eta \left(\dot{\epsilon}_{yz} + \dot{\epsilon}_{zy} \right) \\
+\sigma_{xy} &= \eta \left(\dot{\epsilon}_{xy} + \dot{\epsilon}_{yx} \right)
+\end{align}
+where $\eta = A^{-1} \left(\frac{1}{2} \tau_{xx}^2 + \frac{1}{2} \tau_{yy}^2 + \frac{1}{2} \tau_{zz}^2 + \tau_{xy}^2 + \tau_{xz}^2 + \tau_{yz}^2 \right)^{\frac{2}{n-1}}$ is the ``effective viscosity'' of ice.
+\end{shaded}
+
+The effective viscosity combines all the stress terms together in a way that cannot be separated without further approximation. Thus, all these highly nonlinear equations must be simultaneously solved for gradients in ice velocity ($\dot{\epsilon}_{ij}$). While this is easier with the hydrostatic approximation than without, it is still computationally difficult in practice. Thus, we press on with further approximations.
+
+\section{The L$_1$L$_2$ approximation}
+This is the simplest approximation that allows separability of the momentum equations. It is also often known as the first- or higher-order approximation, or when used with mass conservation equation it is known as the Herterich-Blatter-Pattyn model due to its early development and use by these three glaciologists (\cite{Herterich1987}, \cite{Blatter1995}, \cite{Pattyn2002}). The L$_1$L$_2$ comes from the relative importance of various terms in the stress tensor.
+
+The central assumption in the L$_1$L$_2$ approximation is that
+\begin{align}
+\dot{\epsilon}_{zx} &<< \dot{\epsilon}_{xz} \\
+\dot{\epsilon}_{zy} &<< \dot{\epsilon}_{yz}
+\end{align}
+which is another way of saying that horizontal shearing of vertical velocities is much smaller than vertical shearing of horizontal velocities. We can make this assumption for most ice sheets due to the following scaling arguments
+\begin{align}
+\dot{\epsilon}_{zx} &\mytilde \pd{w}{x} \mytilde \frac{[W]}{[L]} \mytilde \frac{0.1 \space \text{m/yr}}{10-1000 \space \text{km}} \mytilde 10^{-5} - 10^{-7} \space \text{yr}^{-1} \\ \dot{\epsilon}_{xz} &\mytilde \pd{u}{z} \mytilde \frac{[U]}{[H]} \mytilde \frac{1-100 \space \text{m/yr}}{1 \space \text{km}} \mytilde 10^{-1} - 10^{-3} \space \text{yr}^{-1}
+\end{align}
+This greatly simplified the vertical shear stress terms by making them proportional to their corresponding strain rate terms
+\begin{align}
+\sigma_{xz} &= \eta \dot{\epsilon}_{xz} \\
+\sigma_{yz} &= \eta \dot{\epsilon}_{yz}
+\end{align}
+Inserting these into the hydrostatic approximation equations, we have a complete model for ice velocity
+\begin{shaded}
+\begin{align}
+4 \pd{}{x} \left(\eta \pd{u}{x} \right) + 2 \pd{}{x} \left(\eta \pd{v}{y} \right) + \pd{}{y} \left(\eta \left(\pd{u}{y} + \pd{v}{x} \right) \right) + \pd{}{z} \left( \eta \pd{u}{z} \right) &= \rho g \pd{H}{x} \\
+4 \pd{}{y} \left(\eta \pd{v}{y} \right) + 2 \pd{}{y} \left(\eta \pd{u}{x} \right) + \pd{}{x} \left(\eta \left(\pd{u}{y} + \pd{v}{x} \right) \right) + \pd{}{z} \left( \eta \pd{v}{z} \right) &= \rho g \pd{H}{y} \\
+\pd{u}{x} + \pd{v}{y} + \pd{w}{z} &= 0
+\end{align}
+The first two momentum equations in this system are entangled through $u$, $v$, and $\eta$. However, they can simultaneously be solved for $u(x,y,z)$ and $v(x,y,z)$, and then inserted into the third equation, which ensures incompressibility of ice, to solve for $w(x,y,z)$. The result is a system of equations that is easier to solve than the Full stokes and hydrostatic systems of equations.
+\end{shaded}
+
+\section{Shallow Shelf/Stream Approximation (SSA)}
+
+This flow approximation is one of the most widely used approximations in large-scale ice sheet models due to its applicability to regions of fast flow (ice streams/shelves) and the two-dimensionality of ice flow (i.e. removing the need to solve for velocity variation in the $z$ direction). It was originally developed by \cite{MacAyeal-1989:large} and may alternately be referred to as the Shelfy-Stream approximation, though popularly it is referred to as ``SSA''.
+
+The central assumption of the SSA approximation is that the vertical velocity gradient is small relative to horizontal velocity gradients
+\begin{align}
+\dot{\epsilon}_{xz} &<< \dot{\epsilon}_{xy} \\
+\dot{\epsilon}_{yz} &<< \dot{\epsilon}_{yx}
+\end{align}
+This assumption is approximate in places where friction at the base of the ice sheet is small (e.g. ice shelves which have zero friction at their base, or ice streams where basal friction is merely low). The result is that ice velocity is uniform in the vertical, also known as ``plug flow''.
+
+Starting from the L$_1$L$_2$ approximation, we can simply note that the final terms on the left hand side are the vertical shear terms, and drop them. The result is
+\begin{shaded}
+\begin{align}
+4 \pd{}{x} \left(\eta \pd{u}{x} \right) + 2 \pd{}{x} \left(\eta \pd{v}{y} \right) + \pd{}{y} \left(\eta \left(\pd{u}{y} + \pd{v}{x} \right) \right) &= \rho g \pd{H}{x} \\
+4 \pd{}{y} \left(\eta \pd{v}{y} \right) + 2 \pd{}{y} \left(\eta \pd{u}{x} \right) + \pd{}{x} \left(\eta \left(\pd{u}{y} + \pd{v}{x} \right) \right) &= \rho g \pd{H}{y} \\
+\pd{u}{x} + \pd{v}{y} + \pd{w}{z} &= 0 \\
+\eta = A^{-1} \left(\frac{1}{2} \tau_{xx}^2 + \frac{1}{2} \tau_{yy}^2 + \frac{1}{2} \tau_{zz}^2 + \tau_{xy}^2 \right)^{\frac{2}{n-1}} &
+\end{align}
+where the first two equations can be solved simultaneously for the velocities in two dimensions: $u(x,y)$ and $v(x,y)$. Vertical velocity again follows from horizontal velocities through mass continuity.
+\end{shaded}
+
+\section{Shallow Ice Approximation (SIA)}
+
+This is the OG flow approximation, originally conceived by \cite{hutter1983:theoreticalglac}, though which earlier variants in the literature. It forms the basis of most early numerical ice sheet models due to its simplicity and the ability to solve for each velocity component separately. 
+
+The central assumption in SIA is the opposite of SSA, namely that vertical velocity gradients are much larger than horizontal velocity gradients
+\begin{align}
+\dot{\epsilon}_{xy,xx} &<< \dot{\epsilon}_{xz} \\
+\dot{\epsilon}_{yz,yy} &<< \dot{\epsilon}_{yz} \\
+\end{align}
+This is a good assumption in places where basal friction is very high, causing most ice flow to occur through internal deformation of ice, rather than slip at the bed. In the interior of ice sheets or places where the ice sheet is frozen to the bed, SIA works quite well.
+
+Going back to the L$_1$L$_2$ approximation, we drop all terms on the left hand side except the vertical shear terms . The result is
+\begin{shaded}
+\begin{align}
+\pd{}{z} \left( \eta \pd{u}{z} \right) &= \rho g \pd{H}{x} \\
+\pd{}{z} \left( \eta \pd{v}{z} \right) &= \rho g \pd{H}{y} \\
+\pd{u}{x} + \pd{v}{y} + \pd{w}{z} &= 0 \\
+\eta = A^{-1} \left(\tau_{xz}^2 + \tau_{yz}^2 \right)^{\frac{2}{n-1}} &
+\end{align}
+where the horizontal velocity components are separated (though are coupled through the effective viscosity depending on how the model is structured) and can be solved for individually, and the vertical velocity follows through the continuity equation.
+\end{shaded}
+
+\bibliography{/Users/robel/Dropbox/Docs/refs.bib}
+\bibliographystyle{apalike}
+
+\end{document}
