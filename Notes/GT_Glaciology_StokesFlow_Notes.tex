@@ -1,0 +1,104 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}	% Para caracteres en español
+\usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+\usepackage{multirow,booktabs}
+\usepackage[table]{xcolor}
+\usepackage{fullpage}
+\usepackage{lastpage}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{mathrsfs}
+\usepackage{wrapfig}
+\usepackage{setspace}
+\usepackage{calc}
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage[retainorgcmds]{IEEEtrantools}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\newlength{\tabcont}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.05in}
+\usepackage{empheq}
+\usepackage{framed}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\colorlet{shadecolor}{orange!15}
+\parindent 0in
+\parskip 12pt
+\geometry{margin=1in, headsep=0.25in}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{reg}{Rule}
+\newtheorem{exer}{Exercise}
+\newtheorem{note}{Note}
+\begin{document}
+
+\thispagestyle{empty}
+
+\begin{center}
+{\LARGE \bf Viscous Ice Flow}\\
+{\large GT EAS 4803/8803}\\
+\end{center}
+\section{Cauchy Momentum Equation}
+
+\subsection{Forces on a Fluid}
+
+Consider the forces, $\vec{F}$ (where the notation denotes a vector), acting on some ice, which we consider to be a fluid. Newton's second law of motion tell us that the sum of all these forces should determine the acceleration of the ice:
+\begin{equation}
+\sum \vec{F} = ma
+\end{equation}
+where $m$ is the mass of an infinitesmal cube of the ice, and $a$ is the acceleration of the ice. For ice of constant density the mass is $m=\rho dV$ where $\rho$ is the ice density and $dV$ is the volume of the small ice cube. \\
+
+There are two types of forces that are of interest in our problem: \textcolor{red}{body forces} and \textcolor{blue}{surface forces}. We split our sum of forces into these two types:
+\begin{equation}
+\sum F_i = \textcolor{red}{\rho g_i dV} + \textcolor{blue}{\sum_j \nabla_j \sigma_{ij} dV}
+\end{equation}
+where $F_i$ is the force in one particular direction (e.g. one component of the force vector $\vec{F}$), $\sigma_{ij}$ is the stress in the $i$ direction being sheared in the $j$ direction, and $\nabla_j$ is the spatial derivative along the $j$ direction (as you will recall from our primer on continuum mechanics). The only body force that is important for glaciers (and most non-conducting geophysical fluids) is gravity ($g_i$ is the component of the gravity vector in the direction of interest). The surface forces can be summed through a dot product as follows
+\begin{equation}
+\sum F_i = \rho g_i dV + \left(\nabla \cdot \sigma_i \right) dV
+\end{equation}
+
+\subsection{Acceleration and the Material Derivative}
+
+Acceleration of the ice cube can be rewritten in terms of the material derivative of ice velocity: $a = \frac{Du}{Dt}$. The material derivative considers the influence of secular change and change due to ice properties being modified by transport from upstream: $\frac{D}{Dt} = \frac{d}{dt} + u \cdot \nabla$. In rapidly deforming geophysical fluids like water or air, this term is quite important, but in ice it is negligible (as will be shown later), so we will not dwell too much on it.
+
+\subsection{Put it all together}
+We put these pieces together to derive the equivalent to Newton's second law for the ice cube in the $i$ direction
+\begin{equation}
+\rho \frac{Du_i}{Dt} dV = \left(\nabla \cdot \sigma_i \right) dV + \rho g_i dV
+\end{equation}
+We consider a ``control volume'', $\Omega$ which is simply a representative volume of ice (larger than the infinitesimal ice cube) and integrate the forces over this volume
+\begin{equation}
+\int_\Omega \rho \frac{Du_i}{Dt} dV = \int_\Omega \left(\nabla \cdot \sigma_i \right) dV + \int_\Omega \rho g_i dV
+\end{equation}
+and then move all terms to one side so that all terms can be combined into a single integral
+\begin{equation}
+\int_\Omega \left(\rho \frac{Du_i}{Dt} - \left(\nabla \cdot \sigma_i \right) - \rho g_i \right) dV = 0.
+\end{equation}
+If the integrand in the above equation is continuous and the control volume is arbitrary (which is the case if we don't have any large jumps in ice properties or boundary conditions over the volume of interest), then we can assume that the integrand also equals zero
+\begin{shaded}
+\begin{equation}
+\rho \frac{Du_i}{Dt} - \left(\nabla \cdot \sigma_i \right) - \rho g_i = 0.
+\end{equation}
+which is the \textbf{Cauchy Momentum Equation (CME)}.
+\end{shaded}
+
+\section{The Stokes Flow Equation}
+
+Starting from the Cauchy Momentum Equation, we have many options to derive the equations for different types of fluid flow. For example, a Newtonian fluid is one in which the stress $\sigma$ and strain rate (given by $\frac{du}{dx}$) are linearly related: $\sigma = \mu \frac{du}{dx}$ where the constant of proportionality, $\mu$ is the viscosity of the fluid. Substituting this ``constitutive equation'' into the CME leads to the Navier-Stokes equations which are the basis for most of fluid mechanics. \\
+
+However, we will instead keep $\sigma$ sufficiently general (for now) by not assuming a constitutive equation just yet, and instead making a different key assumption: \\
+
+\textcolor{red}{Inertial forces in the fluid (captured by the $\rho \frac{Du}{dt}$ term) are much smaller than viscous forces (captured by the $\nabla \cdot \sigma$ term).} \\
+
+This assumption is typically the case where, like for ice, the fluid viscosity is sufficiently high that stresses ($\sigma$) are large and velocity changes ($\frac{Du}{dt}$) are small. The result of this assumption is that the first term of the CME is neglected, resulting in
+\begin{shaded}
+\begin{equation}
+\left(\nabla \cdot \sigma \right) + \rho g = 0.
+\end{equation}
+which is the \textbf{Stokes Flow equations} (i.e. for all directions $i$). This is the fundamental equation at the base of all models of viscous ice flow over large spatial (greater than meters) and temporal scales (greater than days).
+\end{shaded}
+
+
+\end{document}
